@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>imageEditor</title>
+</head>
+<body class=" vh-100  align-items-center justify-content-center">
+    
+    <section id="mainSection" class="p-3 bg-dark bg-opacity-75 rounded-3">
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-md-8 align-self-center text-center d-flex flex-column align-items-center justify-content-around mb-5">
+                    <div class="img">
+                        <img src="images/drew-coffman-1872.jpg" alt="" class="w-100 pb-3">
+                        <canvas id="canvas" class="w-100 pb-3"></canvas>
+                    </div>
+                    <div class="upload">
+                        <label for="upload" class="btn btn-info">Upload</label>
+                        <input  type="file" name="" class="d-none" id="upload">
+                    </div>
+                </div>
+
+                <div class="col-md-4 text-end filters">
+                    <!-- --------------------------------------------- -->
+                    <label for="saturate" class="text-white w-100">saturate</label>
+                    <input type="range" min="0"  max="200" value="100" class="mb-3 w-100" name="" id="saturate">
+                    <!-- --------------------------------------------- -->
+                    <label for="contrast" class="text-white w-100">contrast</label>
+                    <input type="range" min="0"  max="200" value="100" class="mb-3 w-100" name="" id="contrast">
+                    <!-- --------------------------------------------- -->
+                    <label for="brightness" class="text-white w-100">brightness</label>
+                    <input type="range" min="0"  max="200" value="100" class="mb-3 w-100" name="" id="brightness">
+                    <!-- --------------------------------------------- -->
+                    <label for="sepia" class="text-white w-100">sepia</label>
+                    <input type="range"  min="0"  max="200" value="0" class="mb-3 w-100" name="" id="sepia">
+                    <!-- --------------------------------------------- -->
+                    <label for="grayScale" class="text-white w-100">grayScale</label>
+                    <input type="range"  class="mb-3 w-100" name="" id="grayScale" min="0" step="0.1" value="0" max="1">
+                    <!-- --------------------------------------------- -->
+                    <label for="blur" class="text-white w-100">blur</label>
+                    <input type="range"  class="mb-3 w-100" name="" id="blur" min="0" step="0.1" value="0" max="10">
+                    <!-- --------------------------------------------- -->
+                    <label for="hueRotate" class="text-white w-100">hueRotate</label>
+                    <input type="range"  class="mb-3 w-100" name="" id="hueRotate" min="0" value="0" max="3505">
+                    <!-- --------------------------------------------- -->
+                    <!-- --------------------------------------------- -->
+                    <!-- --------------------------------------------- -->
+                    <div class="py-3 buttons d-flex justify-content-around">
+                        <button class="btn btn-lg btn-outline-danger" id="reset">Reset</button>
+                        <a download="image" class="btn btn-lg btn-outline-primary" id="download">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

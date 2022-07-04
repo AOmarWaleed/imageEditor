@@ -1,0 +1,25 @@
+body {
+    background-color: #7d7474;
+    display: flex;
+   
+}
+.img,canvas {
+    max-width: 400px;
+}
+.img img,canvas {
+    max-height: 500px;
+}
+
+section {
+    width: 85vw;
+}
+
+@media screen and (max-width: 772px) {
+    #mainSection {
+        width: 90vw;
+        margin: 100px auto 20px;
+    }
+    body {
+        display: block 
+    }
+}
