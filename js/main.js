@@ -1,4 +1,3 @@
-
 //inputs--------------------------
 //--------------------------------
 //--------------------------------
@@ -10,42 +9,64 @@ const grayScaleInput = document.getElementById('grayScale');
 const blurInput = document.getElementById('blur');
 const hueRotateInput = document.getElementById('hueRotate');
 const allFilterInputs = document.querySelectorAll('.filters input')
-// BUTTONS------------------------
-//--------------------------------
-//--------------------------------
+// uploadInput------------------------
 const uploadInput = document.getElementById('upload');
-const resetButton = document.getElementById('reset');
-const downloadButton = document.getElementById('download');
-//======================img
-const img = document.images[0]
+//====================== parents
+const imgParent = document.getElementById('imgParent');
+const buttonsParent = document.getElementById('buttons');
+//===================================canvs element
 const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext("2d");
-
+let ctx = canvas.getContext('2d');
 canvas.style.display = "none";
-img.style.display = "none";
-downloadButton.style.display = "none";
-resetButton.style.display = "none";
-// console.log(saturateInput,contrastInput,brightnessInput,sepiaInput,grayScaleInput,blurInput,hueRotateInput,uploadLable,resetButton,downloadButton,img);
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
+
+
+//make it global variable i need it in two function;
+let img;
+
 
 
 
 uploadInput.addEventListener('change',()=>{
 
-    img.style.display = "inline-block";
-    downloadButton.style.display = "inline-block";
-    resetButton.style.display = "inline-block";
+
+    if(document.getElementById('reset') === null && document.getElementById('download') === null) {
+        //creat reset Button and appended it to buttonsParent
+        let resetButton = document.createElement('button');
+        resetButton.classList.add('btn', 'btn-lg', 'btn-outline-danger');
+        let resetText = document.createTextNode("Reset")
+        resetButton.id = "reset"
+        resetButton.append(resetText);
+
+        //creat download Button and appended it to buttonsParent
+        let downloadButton = document.createElement('a');
+        downloadButton.classList.add('btn', 'btn-lg', 'btn-outline-primary');
+        let downloadText = document.createTextNode("Download")
+        downloadButton.id = "download"
+        downloadButton.append(downloadText)
+        //important to allow to download
+        downloadButton.setAttribute('download' , 'img');
+
+        buttonsParent.prepend(resetButton);
+        buttonsParent.append(downloadButton);
+
+    }
+
+    
+
+    //creat img 
+    img = document.createElement('img');
+    img.classList.add('w-100', 'pb-3');
+    img.style.maxHeight = "500px"
+    img.style.maxWidth = "400px"
+    imgParent.append(img);
 
 
 
+    //{
     // to console info about the upload file
     // u have name + type + .....
     // console.log(uploadInput.files[0]);
-
+    //}
 
     //cheack if its img or not
     if(!uploadInput.files[0].type.startsWith("image/")) { 
@@ -54,7 +75,7 @@ uploadInput.addEventListener('change',()=>{
     }
 
 
-    //to read the file (FileReader => u should have assert -obj-)
+    //to read the file (FileReader => u should have instance -obj- from it)
     const reader = new FileReader();
     //then read as  ,, u can read as url , text ,,,,,,
     reader.readAsDataURL(uploadInput.files[0])
@@ -70,15 +91,13 @@ uploadInput.addEventListener('change',()=>{
         //when img complately loading lets go draw it as canvas 
         // why ??? ,, because this langusage dosnt support download imgs whith filters 
         img.onload = function () {
+            /////////////////////
             canvas.width = img.width;
             canvas.height = img.height;
-            //lets start with get area to draw in it 
-            //const ctx = canvas.getContext("2d"); line 22 ,, i needed to make it global value
-            //then lets drw in this area 
+
+            //then lets draw the img using (ctx)
             ctx.drawImage(img,0,0,canvas.width,canvas.height);
-            //and when i have canvas ready lets display (none) the img 
-            img.style.display = "none";
-            // and show the canvas (block)
+            img.remove();
             canvas.style.display = "block";
         }
 
@@ -92,14 +111,19 @@ allFilterInputs.forEach((el)=>{
 })
 
 
-
-resetButton.addEventListener('click' , ()=> {
+document.addEventListener('click' , (e)=>{
+  if(e.target.id === 'reset') {
     resetFilterValues();
     setFilterValues();
+  }
+  if(e.target.id === "download") {
+    //toDataURL its return url of the canvas ,, by defult it will download as png u can change that like send this parameter "image/"
+    e.target.setAttribute('href' , canvas.toDataURL()) 
+  }
 })
 
 function setFilterValues() {
-    //thsi filter by3ml 3la el cancas el mntka bta3t el rsm fahm - _ -
+    //endta 3ndk for4a btrsm (ctx) ,, 5dt hya el flatr de lazm troh trsmha tane 3la el img
     ctx.filter = `saturate(${saturateInput.value}%)
     contrast(${contrastInput.value}%)
     brightness(${brightnessInput.value}%)
@@ -122,8 +146,3 @@ function resetFilterValues() {
     blurInput.value = 0;
     hueRotateInput.value = 0;
 }
-
-downloadButton.addEventListener('click', ()=>{
-    //toDataURL its return url of the canvas ,, by defult it will download as png u can change that like send this parameter "image/"
-    downloadButton.setAttribute('href' , canvas.toDataURL()) 
-})
